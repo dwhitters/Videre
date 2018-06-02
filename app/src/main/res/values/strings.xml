@@ -2,4 +2,7 @@
     <string name="app_name">Videre</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_device">DeviceActivity</string>
+    <string name="title_activity_map">MapActivity</string>
+    <string name="device_name_in_use">Device name is already in use!</string>
+
 </resources>

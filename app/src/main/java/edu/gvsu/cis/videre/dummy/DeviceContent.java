@@ -28,7 +28,7 @@ public class DeviceContent {
     static {
         // Add some sample items.
         for (int i = 1; i <= COUNT; i++) {
-            addItem(createDummyItem(i));
+            addItem(createDevice(String.valueOf(i)));
         }
     }
 
@@ -37,17 +37,25 @@ public class DeviceContent {
         ITEM_MAP.put(item.id, item);
     }
 
-    private static DeviceItem createDummyItem(int position) {
-        return new DeviceItem(String.valueOf(position), true, "Item " + position, makeDetails(position));
-    }
+    /**
+        Constructor for the DeviceItem class.
 
-    private static String makeDetails(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Item: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
+        @param device_name
+            The name of the device.
+
+        @return
+            A new device item if no other item has the same name. Otherwise null.
+     */
+    public static DeviceItem createDevice(String device_name) {
+        // Initially set the return item to null.
+        DeviceItem retItem = new DeviceItem(device_name, true, "Item " + device_name);
+        for(DeviceItem device : ITEMS) {
+            if(device.id.equalsIgnoreCase(device_name)) {
+                retItem = null; // Don't return the new item if another item has the same name.
+                break;
+            }
         }
-        return builder.toString();
+        return retItem;
     }
 
     /**
@@ -57,13 +65,11 @@ public class DeviceContent {
         public final String id;
         public final boolean inUse;
         public final String content;
-        public final String details;
 
-        public DeviceItem(String id, boolean inUse, String content, String details) {
+        public DeviceItem(String id, boolean inUse, String content) {
             this.id = id;
             this.inUse = inUse;
             this.content = content;
-            this.details = details;
         }
 
         @Override
