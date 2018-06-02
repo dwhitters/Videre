@@ -4,51 +4,56 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".SigninActivity"
-    tools:showIn="@layout/activity_signin">
+    tools:context=".NewUserActivity">
 
     <EditText
-        android:id="@+id/emailLog"
+        android:id="@+id/editText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/videreLogo" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <EditText
-        android:id="@+id/passLog"
+        android:id="@+id/editText2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/emailLog" />
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
 
-    <Button
-        android:id="@+id/logBtn"
+    <EditText
+        android:id="@+id/editText3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:ems="10"
+        android:hint="Confirm Password"
+        android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/passLog" />
+        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Create"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editText3" />
 
     <ImageView
-        android:id="@+id/videreLogo"
+        android:id="@+id/imageView"
         android:layout_width="0dp"
-        android:layout_height="157dp"
+        android:layout_height="208dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/placeholder" />
-
 </android.support.constraint.ConstraintLayout>
