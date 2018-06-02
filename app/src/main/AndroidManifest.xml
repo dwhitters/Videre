@@ -19,7 +19,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".NewUserActivity"></activity>
+        <activity android:name=".NewUserActivity" />
+        <activity
+            android:name=".DeviceActivity"
+            android:label="@string/title_activity_device"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>

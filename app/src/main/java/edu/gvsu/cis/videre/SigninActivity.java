@@ -1,5 +1,7 @@
 package edu.gvsu.cis.videre;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -8,8 +10,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 
 public class SigninActivity extends AppCompatActivity {
+
+    /**
+     * Hide the soft keypad.
+     */
+    private void hideKeypad() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,13 +30,12 @@ public class SigninActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
+        Button loginBtn = (Button) findViewById(R.id.logBtn);
+        loginBtn.setOnClickListener(v -> {
+            hideKeypad(); // Hide the keypad.
+
+            Intent intent = new Intent(SigninActivity.this, DeviceActivity.class);
+            startActivity(intent);
         });
     }
 
