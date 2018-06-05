@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="edu.gvsu.cis.videre.SigninActivity">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_new_user"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
+        android:title="New User"
         app:showAsAction="never" />
 </menu>
