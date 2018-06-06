@@ -3,6 +3,7 @@ package edu.gvsu.cis.videre;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -34,6 +35,14 @@ public class SigninActivity extends AppCompatActivity {
 
             Intent intent = new Intent(SigninActivity.this, DeviceActivity.class);
             startActivity(intent);
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(SigninActivity.this, NewUserActivity.class));
+            }
         });
     }
 
