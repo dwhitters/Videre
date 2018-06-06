@@ -8,21 +8,21 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import edu.gvsu.cis.videre.DeviceFragment.OnListFragmentInteractionListener;
-import edu.gvsu.cis.videre.dummy.DeviceContent.DeviceItem;
+import edu.gvsu.cis.videre.Device;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link DeviceItem} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link Device} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder> {
 
-    private final List<DeviceItem> mValues;
+    private final List<Device> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public DeviceAdapter(List<DeviceItem> items, OnListFragmentInteractionListener listener) {
+    public DeviceAdapter(List<Device> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -40,7 +40,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
         holder.mDeviceNameView.setText(mValues.get(position).id);
         holder.mInUseView.setText(""); // No text needed.
         holder.mInUseView.setChecked(mValues.get(position).inUse);
-        holder.mSettingView.setText(mValues.get(position).content);
+        holder.mSettingView.setText(mValues.get(position).toString());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,7 +64,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
         public final TextView mDeviceNameView;
         public final CheckBox mInUseView;
         public final TextView mSettingView;
-        public DeviceItem mItem;
+        public Device mItem;
 
         public ViewHolder(View view) {
             super(view);

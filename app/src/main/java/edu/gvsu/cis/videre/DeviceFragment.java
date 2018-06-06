@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import edu.gvsu.cis.videre.dummy.DeviceContent;
-import edu.gvsu.cis.videre.dummy.DeviceContent.DeviceItem;
+import edu.gvsu.cis.videre.Device;
 
 /**
  * A fragment representing a list of Items.
@@ -26,12 +26,22 @@ public class DeviceFragment extends Fragment {
     // Device, in use buttons, and type will be displayed.
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private DeviceAdapter mAdapter;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public DeviceFragment() {
+    }
+
+    /**
+     * Rebind all elements in the bound list.
+     */
+    public void updateDataSet() {
+        if(mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     // TODO: Customize parameter initialization
@@ -67,7 +77,9 @@ public class DeviceFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new DeviceAdapter(DeviceContent.ITEMS, mListener));
+
+            // Set the mAdapter attribute and pass it to the recycler view.
+            recyclerView.setAdapter(mAdapter = new DeviceAdapter(DeviceContent.ITEMS, mListener));
         }
         return view;
     }
@@ -102,6 +114,6 @@ public class DeviceFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DeviceItem item);
+        void onListFragmentInteraction(Device item);
     }
 }

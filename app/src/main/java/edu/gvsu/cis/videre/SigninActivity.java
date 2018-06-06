@@ -12,28 +12,27 @@ import android.view.MenuItem;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class SigninActivity extends AppCompatActivity {
 
     /**
      * Hide the soft keypad.
      */
-
-    FloatingActionButton NewUse;
-
-    public void init() {
-        NewUse = (FloatingActionButton)findViewById(R.id.NewUse);
-        NewUse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent addActivity =  new Intent(SigninActivity.this, NewUserActivity.class);
-                startActivity(addActivity);
-            }
-        });
-    }
-
     private void hideKeypad() {
         InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+    }
+
+    @OnClick(R.id.NewUse) void NewUse() {
+        Intent addActivity =  new Intent(SigninActivity.this, NewUserActivity.class);
+        startActivity(addActivity);
+    }
+
+    public void init() {
+        ButterKnife.bind(this);
     }
 
     @Override
