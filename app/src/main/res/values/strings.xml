@@ -4,5 +4,6 @@
     <string name="title_activity_device">DeviceActivity</string>
     <string name="title_activity_map">MapActivity</string>
     <string name="device_name_in_use">Device name is already in use!</string>
-
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_setup">SetupActivity</string>
 </resources>
