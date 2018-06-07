@@ -26,8 +26,9 @@ public class NewUserActivity extends AppCompatActivity {
         imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
     }
 
-    @OnClick(R.id.fab) void fab() {
+    @OnClick(R.id.createUser) void  createUser() {
         Intent addActivity =  new Intent(NewUserActivity.this, SetupActivity.class);
+        hideKeypad();
         startActivity(addActivity);
     }
 
@@ -42,7 +43,7 @@ public class NewUserActivity extends AppCompatActivity {
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
-        hideKeypad();
+        //hideKeypad();
 
 //        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab);
 //        fab2.setOnClickListener(v -> {
