@@ -7,4 +7,8 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_setup">SetupActivity</string>
     <string name="device_name_must_be_given">Device name must be given!</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="app_logo">App logo</string>
 </resources>
