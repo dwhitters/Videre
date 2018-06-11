@@ -11,4 +11,7 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="app_logo">App logo</string>
+    <string name="title_activity_bluetooth">BluetoothActivity</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="bt_connection_failed">Bluetooth Connection Failed!</string>
 </resources>

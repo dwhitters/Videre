@@ -18,12 +18,12 @@ public class DeviceContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<Device> ITEMS = new ArrayList<Device>();
+    public static final List<Device> DEVICE_LIST = new ArrayList<Device>();
 
     /**
      * A map of sample (dummy) items, by ID.
      */
-    public static final Map<String, Device> ITEM_MAP = new HashMap<String, Device>();
+    public static final Map<String, Device> DEVICE_MAP = new HashMap<String, Device>();
 
     private static final int COUNT = 25;
 
@@ -43,15 +43,15 @@ public class DeviceContent {
      */
     public static boolean addItem(Device item) {
         boolean itemNameNotInUse = true; // Flag that is set to false when the item name is in use.
-        for(Device device : ITEMS) {
+        for(Device device : DEVICE_LIST) {
             if(device.id.equalsIgnoreCase(item.id)) {
                 itemNameNotInUse = false;
                 break;
             }
         }
         if(itemNameNotInUse) {
-            ITEMS.add(item);
-            ITEM_MAP.put(item.id, item);
+            DEVICE_LIST.add(item);
+            DEVICE_MAP.put(item.id, item);
         }
 
         return itemNameNotInUse;
