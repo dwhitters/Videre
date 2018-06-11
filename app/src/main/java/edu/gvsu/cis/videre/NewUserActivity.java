@@ -28,7 +28,7 @@ public class NewUserActivity extends AppCompatActivity {
 
 
     @OnClick(R.id.createUser) void createUser() {
-        Intent addActivity =  new Intent(NewUserActivity.this, SetupActivity.class);
+        Intent addActivity =  new Intent(NewUserActivity.this, DeviceActivity.class);
         hideKeypad();
         startActivity(addActivity);
     }
