@@ -118,11 +118,13 @@ public class BluetoothLeService extends Service{
             mState = status;
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 mGatt = gatt;
-                BluetoothGattService service = gatt.getService(SERVICE_UUID);
-                mCharacteristic = service.getCharacteristic(CHARACTERISTIC_UUID);
-                mCharacteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
-                // Get notifications from this characteristic.
-                mInitialized = gatt.setCharacteristicNotification(mCharacteristic, true);
+                BluetoothGattService service;
+                if((service = gatt.getService(SERVICE_UUID)) != null) {
+                    mCharacteristic = service.getCharacteristic(CHARACTERISTIC_UUID);
+                    mCharacteristic.setWriteType(BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT);
+                    // Get notifications from this characteristic.
+                    mInitialized = gatt.setCharacteristicNotification(mCharacteristic, true);
+                }
             } else {
                 Log.w(TAG, "onServicesDiscovered received: " + status);
             }

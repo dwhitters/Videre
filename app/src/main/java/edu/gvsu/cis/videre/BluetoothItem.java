@@ -24,6 +24,6 @@ public class BluetoothItem {
 
         BluetoothItem btItem = (BluetoothItem) o;
 
-        return btItem.name.equals(this.name);
+        return btItem.address.equals(this.address);
     }
 }

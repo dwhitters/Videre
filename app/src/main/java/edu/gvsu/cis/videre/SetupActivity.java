@@ -66,7 +66,7 @@ public class SetupActivity extends AppCompatActivity {
             newDevice = new Device(newDeviceName, true, newDeviceType);
 
             if(mBleService.isBluetoothConnected()) {
-                if(mBleService.btSendData(String.valueOf(newDeviceType))) {
+                if(mBleService.btSendData(String.valueOf(newDeviceType.getVal()))) {
                     mBleService.disconnect(); // Connection no longer needed.
                     // Parcel the new object up and pass it back to the device activity.
                     Intent resultIntent = new Intent();

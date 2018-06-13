@@ -149,6 +149,13 @@ public class BluetoothActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+
+        stopScan();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -213,7 +220,9 @@ public class BluetoothActivity extends AppCompatActivity
             BluetoothDevice device = result.getDevice();
             String deviceAddress = device.getAddress();
             mBluetoothItem = new BluetoothItem();
-            mBluetoothItem.name = device.getName();
+            if((mBluetoothItem.name = device.getName()) == null) {
+                mBluetoothItem.name = "No name";
+            }
             mBluetoothItem.address = deviceAddress;
 
             // Add the scan result if it is not already present.
