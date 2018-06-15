@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "833444920856",
+    "firebase_url": "https://videre-fc0fb.firebaseio.com",
+    "project_id": "videre-fc0fb",
+    "storage_bucket": "videre-fc0fb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:833444920856:android:7ac2835cd7dd53a6",
+        "android_client_info": {
+          "package_name": "edu.gvsu.cis.videre"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "833444920856-mdfvfhv96lc3vpar6v95lqq97sfohf8a.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "833444920856-mdfvfhv96lc3vpar6v95lqq97sfohf8a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUtT6ze2Nsb3HO0SDF5NPyP4vcl0tKyGU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

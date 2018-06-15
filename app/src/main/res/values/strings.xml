@@ -13,5 +13,9 @@
     <string name="app_logo">App logo</string>
     <string name="title_activity_bluetooth">BluetoothActivity</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="email_required">Enter an Email!</string>
+    <string name="incorrect_email">Incorrect Email!</string>
+    <string name="incorrect_password">Enter the correct password!</string>
     <string name="bt_connection_failed">Bluetooth Connection Failed!</string>
+    <string name="fail_toCreate">Failed to Create Account!</string>
 </resources>
