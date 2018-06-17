@@ -193,8 +193,8 @@ public class DeviceActivity extends AppCompatActivity
 //                Device newDevice = DeviceContent.createDevice(input.getText().toString());
 //                addDeviceToList(newDevice);
                 Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
-                intent.putExtra("Latitude",item.location.latitude);
-                intent.putExtra("Longitude",item.location.longitude);
+                intent.putExtra("Latitude",item.latitude);
+                intent.putExtra("Longitude",item.longitude);
                 startActivity(intent);
             }
         });

@@ -3,7 +3,6 @@ package edu.gvsu.cis.videre;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.parceler.Parcel;
-import org.parceler.ParcelConstructor;
 
 /**
  * Holds all the information for a device.
@@ -15,7 +14,8 @@ public class Device {
     public boolean inUse = false;
     public DeviceType deviceType = null;
     String key;
-    public LatLng location = null;
+    public double latitude;
+    public double longitude;
 
     @Override
     public String toString() {
@@ -36,5 +36,13 @@ public class Device {
 
     public String getKey() {
         return key;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
     }
 }

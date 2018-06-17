@@ -68,7 +68,8 @@ public class SetupActivity extends AppCompatActivity {
             newDevice.id = newDeviceName;
             newDevice.inUse = true;
             newDevice.deviceType = newDeviceType;
-            newDevice.location = null;
+            newDevice.latitude = 0.0;
+            newDevice.longitude = 0.0;
 
            if(mBleService.isBluetoothConnected()) {
                 if(mBleService.btSendData(String.valueOf(newDeviceType.getVal()))) {
