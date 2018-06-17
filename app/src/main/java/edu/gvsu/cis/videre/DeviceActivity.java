@@ -29,8 +29,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import edu.gvsu.cis.videre.dummy.DeviceContent;
-
 public class DeviceActivity extends AppCompatActivity
         implements DeviceFragment.OnListFragmentInteractionListener {
 
