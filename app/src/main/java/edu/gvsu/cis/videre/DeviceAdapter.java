@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * {@link RecyclerView.Adapter} that can display a {@link Device} and makes a call to the
  * specified {@link OnListFragmentInteractionListener}.
- * TODO: Replace the implementation with code for your data type.
  */
 public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder> {
 
@@ -113,6 +112,11 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
                        }
                    }
                 );
+                mView.setOnLongClickListener(v -> {
+                    DeviceActivity.longClickOccurred = true;
+                    return false; // Signal that the click event was not handled. It will be handled in the
+                                  // normal onListFragmentInteraction handler.
+                });
             } else if(viewType == TYPE_HEAD) {
                 title_Device = (TextView) view.findViewById(R.id.h_device);
                 title_Use = (TextView) view.findViewById(R.id.h_inUse);
@@ -136,9 +140,4 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
         return TYPE_LIST;
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        //inflate the menu
-//        getMenuInflater().Inflater().inflate()
-//    }
 }

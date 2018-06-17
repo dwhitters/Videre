@@ -38,6 +38,7 @@ public class DeviceActivity extends AppCompatActivity
 
     static final int NEW_DEVICE_REQUEST = 0; // The request code.
     public static List<Device> userDevices; // List of all the user's devices.
+    public static boolean longClickOccurred = false; // Set to true when a list item was long pressed.
 	
     private CurrentSession mCurrentSession;
 
@@ -102,15 +103,9 @@ public class DeviceActivity extends AppCompatActivity
         }
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {
-            Device entry = (Device)
-                    dataSnapshot.getValue(Device.class);
-            List<Device> newUserDeviceList = new ArrayList<Device>();
-            for (Device t : userDevices) {
-                if (!t.key.equals(dataSnapshot.getKey())) {
-                    newUserDeviceList.add(t);
-                }
-            }
-            userDevices = newUserDeviceList;
+            Device entry = (Device) dataSnapshot.getValue(Device.class);
+            userDevices.remove(entry);
+            ((DeviceFragment)getFragmentManager().findFragmentById(R.id.recyclerViewFragment)).updateDataSet();
         }
         @Override
 
@@ -178,7 +173,11 @@ public class DeviceActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(Device item) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Go to Map?");
+        if(longClickOccurred) {
+            builder.setTitle("Delete Device?");
+        } else {
+            builder.setTitle("Go to Map?");
+        }
 
         // Set up the input
         final EditText input = new EditText(this);
@@ -190,12 +189,15 @@ public class DeviceActivity extends AppCompatActivity
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                Device newDevice = DeviceContent.createDevice(input.getText().toString());
-//                addDeviceToList(newDevice);
-                Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
-                intent.putExtra("Latitude",item.latitude);
-                intent.putExtra("Longitude",item.longitude);
-                startActivity(intent);
+                if(longClickOccurred) {
+                    deleteItem(item.key);
+                } else {
+                    Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
+                    intent.putExtra("Latitude", item.latitude);
+                    intent.putExtra("Longitude", item.longitude);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -206,12 +208,6 @@ public class DeviceActivity extends AppCompatActivity
         });
 
         builder.show();
-//        Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
-//        startActivity(intent);
-//        Parcelable parcel  =  Parcels.wrap(item);
-//        intent.putExtra("DEVICE",parcel);
-//        setResult(RESULT_OK,intent);
-//        finish();
     }
 
     @Override
@@ -235,5 +231,12 @@ public class DeviceActivity extends AppCompatActivity
         }
 
         return handled;
+    }
+
+    /**
+     * Deletes the device item with the passed in key from the database.
+     */
+    public static void deleteItem(String deviceKey) {
+        CurrentSession.getInstance().getDatabaseRef().child("devices").child(deviceKey).removeValue();
     }
 }
