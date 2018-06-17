@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import edu.gvsu.cis.videre.DeviceFragment.OnListFragmentInteractionListener;
@@ -97,6 +98,20 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
                 mInUseView = (CheckBox) view.findViewById(R.id.in_use_check);
                 mSettingView = (TextView) view.findViewById(R.id.content);
                 view_Type = 1;
+                //checkbox click event handling
+                mInUseView.setOnCheckedChangeListener((k,v) -> {
+                       for(Device d : mValues) {
+                           if(d.id.equals(mDeviceNameView.getText())) {
+                               d.inUse = mInUseView.isChecked();
+                               try {
+                                   CurrentSession.getInstance().getDatabaseRef().child("devices").child(d.key).setValue(d);
+                               } catch (Exception e) {
+                                   e.printStackTrace();
+                               }
+                           }
+                       }
+                   }
+                );
             } else if(viewType == TYPE_HEAD) {
                 title_Device = (TextView) view.findViewById(R.id.h_device);
                 title_Use = (TextView) view.findViewById(R.id.h_inUse);
