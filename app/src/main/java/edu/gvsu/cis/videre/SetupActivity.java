@@ -63,7 +63,7 @@ public class SetupActivity extends AppCompatActivity {
                     .show();
         } else {
             // Create the new device.
-            newDevice = new Device(newDeviceName, true, newDeviceType);
+            newDevice = new Device(newDeviceName, true, newDeviceType,null);
 
             if(mBleService.isBluetoothConnected()) {
                 if(mBleService.btSendData(String.valueOf(newDeviceType.getVal()))) {
