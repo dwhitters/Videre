@@ -35,32 +35,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Manifest.permission.ACCESS_FINE_LOCATION};
     private GoogleMap mMap;
     MarkerOptions mo;
+    MarkerOptions mo2;
     Marker marker;
     Marker marker2;
     LatLng myCoordinates;
     Device mDevice;
     LocationManager locationManager;
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        CurrentSession.getInstance().getDatabaseRef().
-//                child(CurrentSession.getInstance().getUser().getEmail()).child("Device").
-//                addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        Device entry = (Device) dataSnapshot.getValue(Device.class);
-//                        mDevice = entry;
-//                        LatLng myDevice = entry.location;
-//                        marker2.setPosition(myDevice);
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        CurrentSession.getInstance().getDatabaseRef().
+                child("user").child("Device").
+                addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Device entry = (Device) dataSnapshot.getValue(Device.class);
+                        mDevice = entry;
+                        //LatLng myDevice = entry.location;
+                        LatLng myDevice = new LatLng(marker.getPosition().latitude +3,marker.getPosition().longitude +3);
+                        marker2.setPosition(myDevice);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         mo = new MarkerOptions().position(new LatLng(0, 0)).title("My Current Location");
+        mo2 = new MarkerOptions().position(new LatLng(0,0)).title("My Device Location");
         if (Build.VERSION.SDK_INT >= 23 && !isPermissionGranted()) {
             requestPermissions(PERMISSIONS, PERMISSION_ALL);
         } else requestLocation();
@@ -84,12 +87,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         marker = mMap.addMarker(mo);
+        marker2 = mMap.addMarker(mo2);
 
     }
 
     @Override
     public void onLocationChanged(Location location) {
-        LatLng myCoordinates = new LatLng(29, 98);
+        LatLng myCoordinates = new LatLng(location.getLatitude(),location.getLongitude());
         marker.setPosition(myCoordinates);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myCoordinates));
 
