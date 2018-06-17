@@ -12,8 +12,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -211,5 +214,28 @@ public class DeviceActivity extends AppCompatActivity
 //        intent.putExtra("DEVICE",parcel);
 //        setResult(RESULT_OK,intent);
 //        finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_signout,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        boolean handled = super.onOptionsItemSelected(item);
+
+        if(!handled) {
+            int id = item.getItemId();
+            if(id == R.id.action_signout) {
+                Intent intent  = new Intent(DeviceActivity.this, SigninActivity.class);
+                FirebaseAuth.getInstance().signOut();
+                startActivity(intent);
+                handled = true;
+            }
+        }
+
+        return handled;
     }
 }
