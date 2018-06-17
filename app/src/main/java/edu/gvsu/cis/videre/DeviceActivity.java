@@ -88,6 +88,13 @@ public class DeviceActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    public void onDestroy() {
+        // Only called when the app is closed. Signs the user out.
+        super.onDestroy();
+        signOut();
+    }
+
     private ChildEventListener chEvListener = new ChildEventListener() {
         @Override
         public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -196,7 +203,6 @@ public class DeviceActivity extends AppCompatActivity
                     intent.putExtra("Latitude", item.latitude);
                     intent.putExtra("Longitude", item.longitude);
                     startActivity(intent);
-                    finish();
                 }
             }
         });
@@ -216,6 +222,13 @@ public class DeviceActivity extends AppCompatActivity
         return true;
     }
 
+    /**
+     * Signs the current user out.
+     */
+    private void signOut() {
+        FirebaseAuth.getInstance().signOut();
+    }
+
     @Override
     public boolean onOptionsItemSelected (MenuItem item) {
         boolean handled = super.onOptionsItemSelected(item);
@@ -223,8 +236,8 @@ public class DeviceActivity extends AppCompatActivity
         if(!handled) {
             int id = item.getItemId();
             if(id == R.id.action_signout) {
-                Intent intent  = new Intent(DeviceActivity.this, SigninActivity.class);
-                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(DeviceActivity.this, SigninActivity.class);
+                signOut();
                 startActivity(intent);
                 handled = true;
             }
