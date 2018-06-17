@@ -49,10 +49,10 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
 
         if(holder.view_Type == TYPE_LIST) {
             holder.mItem = mValues.get(position-1);
-            holder.mDeviceNameView.setText(mValues.get(position).id);
+            holder.mDeviceNameView.setText(mValues.get(position-1).id);
             holder.mInUseView.setText(""); // No text needed.
-            holder.mInUseView.setChecked(mValues.get(position).inUse);
-            holder.mSettingView.setText(mValues.get(position).toString());
+            holder.mInUseView.setChecked(mValues.get(position-1).inUse);
+            holder.mSettingView.setText(mValues.get(position-1).toString());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -69,15 +69,12 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
             holder.title_Device.setText("DEVICE");
             holder.title_Use.setText("USE");
             holder.title_Setting.setText("SETTING");
-
         }
-
-
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return mValues.size()+1;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -106,7 +103,6 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
                 title_Setting = (TextView) view.findViewById(R.id.h_setting);
                 view_Type = 0;
             }
-
         }
 
         @Override

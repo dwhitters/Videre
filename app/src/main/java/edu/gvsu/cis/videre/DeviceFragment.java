@@ -10,7 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import edu.gvsu.cis.videre.dummy.DeviceContent;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -27,11 +27,15 @@ public class DeviceFragment extends Fragment {
     private OnListFragmentInteractionListener mListener;
     private DeviceAdapter mAdapter;
 
+    // The list this fragment is bound to.
+    List<Device> userDevices;
+
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
     public DeviceFragment() {
+        userDevices = DeviceActivity.userDevices;
     }
 
     /**
@@ -78,7 +82,7 @@ public class DeviceFragment extends Fragment {
             }
 
             // Set the mAdapter attribute and pass it to the recycler view.
-            recyclerView.setAdapter(mAdapter = new DeviceAdapter(DeviceContent.DEVICE_LIST, mListener));
+            recyclerView.setAdapter(mAdapter = new DeviceAdapter(userDevices, mListener));
         }
         return view;
     }

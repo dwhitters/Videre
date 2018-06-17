@@ -37,6 +37,8 @@ package edu.gvsu.cis.videre;
 
 
         import java.util.ArrayList;
+        import java.util.HashMap;
+        import java.util.Map;
 
         import butterknife.BindView;
         import butterknife.ButterKnife;
@@ -46,59 +48,22 @@ public class NewUserActivity extends AppCompatActivity {
 
     /**
      * Hide the soft keypad.
-     *
-     *
      */
+    private void hideKeypad() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+    }
 
     private FirebaseAuth mAuth;
-    DatabaseReference topRef;
-    trackUser mAddUser;
-    ArrayList<trackUser> allUser;
 
     public static final int NEW_DEVICE = 1;
     public static final int NEW_USER = 2;
-
 
     @BindView(R.id.newLog) EditText email;
     @BindView(R.id.newPass) EditText passwd;
 
     String emailStr;
     String passStr;
-
-    //private CoordinatorLayout coordinatorLayout;
-
-    private void hideKeypad() {
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //do we want this or nah
-        allUser.clear();
-        topRef = FirebaseDatabase.getInstance().getReference("trackUser");
-        topRef.addChildEventListener(chEvListener);
-    }
-
-//    @Override
-//    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-//        System.out.println("Hello World!!!");
-//    }
-
-    private class FinalValues {
-
-        private String emailStr = "";
-        private String passStr = "";
-
-        public void setEmailStr(String emailStr){ this.emailStr = emailStr;}
-        public void setPassStr(String passStr){ this.passStr = passStr;}
-        public String getEmailStr() { return emailStr;}
-        public String getPassStr() { return passStr;}
-    }
-
-    private FinalValues finalVals;
-
 
     @OnClick(R.id.createUser) void createUser() {
 
@@ -108,24 +73,24 @@ public class NewUserActivity extends AppCompatActivity {
         mAuth.createUserWithEmailAndPassword(emailStr, passStr)
                 .addOnCompleteListener(this, task -> {
                     if(task.isSuccessful()) {
-                        mAddUser.emailStr = emailStr;
-                        mAddUser.passStr = passStr;
-                        topRef.push().setValue(mAddUser);
+                        CurrentSession.getInstance().setUser(mAuth.getCurrentUser());
                         Intent toMain = new Intent(NewUserActivity.this, DeviceActivity.class);
-                        //do i need
-                        //toMain.putExtra("email", emailStr);
+                        // Create new node in the database for the user.
+                        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+                        HashMap<String, String> newUserEmail = new HashMap<>();
+                        newUserEmail.put("email", emailStr);
+                        usersRef.child(mAuth.getCurrentUser().getUid()).setValue(newUserEmail);
+
+                        CurrentSession.getInstance().setDatabaseRef(
+                                FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid()));
                         startActivity(toMain);
                         finish();
                     } else {
-//                        Snackbar.make(email,R.string.fail_toCreate,
-//                                Snackbar.LENGTH_LONG)
-//                                .show();
+                        Snackbar.make(email,R.string.fail_toCreate,
+                                Snackbar.LENGTH_LONG)
+                                .show();
                     }
                 });
-
-
-//        topRef.child("trackUser").child(emailStr).child()
-
     }
 
     public void init() {
@@ -138,103 +103,12 @@ public class NewUserActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_user);
         //coordinatorLayout = findViewById(R.id.coordinatorLayout);
         mAuth = FirebaseAuth.getInstance();
-        mAddUser = new trackUser();
-        allUser = new ArrayList<trackUser>();
-
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-        //hideKeypad();
-
-
-//        FloatingActionButton fab2 = (FloatingActionButton) findViewById(R.id.fab);
-//        fab2.setOnClickListener(v -> {
-//            hideKeypad(); // Hide the keypad.
-//
-//            Intent intent = new Intent(NewUserActivity.this, SetupActivity.class);
-//            startActivity(intent);
-//        });
 
         init();
-
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_signin, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_new_user) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-
-
-//        boolean handled = super.onOptionsItemSelected(item);
-//        if(!handled) {
-//            int id = item.getItemId();
-//            if(id == R.id.action_new_user) {
-//                Intent intent = new Intent{SigninActivity.this, NewUserActivity.class);
-//                startActivityForResult(intent, NEW_USER);
-//                handled = true;
-//                }
-//            }
-//        }
-//        return handled;
-        return true;
     }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
-    }
-
-    private ChildEventListener chEvListener = new ChildEventListener() {
-        @Override
-        public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-            trackUser entry = (trackUser)
-                    dataSnapshot.getValue(trackUser.class);
-            entry._key = dataSnapshot.getKey();
-            allUser.add(entry);
-        }
-
-        @Override
-        public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-            trackUser entry = (trackUser)
-                    dataSnapshot.getValue(trackUser.class);
-            ArrayList<trackUser> newHistory = new ArrayList<trackUser>();
-            for(trackUser t : allUser) {
-                if (!t._key.equals(dataSnapshot.getKey())) {
-                    newHistory.add(t);
-                }
-            }
-            allUser = newHistory;
-        }
-
-        @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-        }
-
-        @Override public void onCancelled(DatabaseError databaseError) {}
-    };
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        topRef.removeEventListener(chEvListener);
     }
 }

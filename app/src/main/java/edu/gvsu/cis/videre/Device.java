@@ -8,19 +8,29 @@ import org.parceler.ParcelConstructor;
  */
 @Parcel
 public class Device {
-    public final String id;
-    public final boolean inUse;
-    public final DeviceType deviceType;
-
-    @ParcelConstructor
-    public Device(String id, boolean inUse, DeviceType deviceType) {
-        this.id = id;
-        this.inUse = inUse;
-        this.deviceType = deviceType;
-    }
+    public String id = "";
+    public boolean inUse = false;
+    public DeviceType deviceType = null;
+    String key;
 
     @Override
     public String toString() {
         return deviceType.name();
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public boolean isInUse() {
+        return inUse;
+    }
+
+    public DeviceType getDeviceType() {
+        return deviceType;
+    }
+
+    public String getKey() {
+        return key;
     }
 }
