@@ -59,7 +59,7 @@ public class DeviceContent {
 
     public static Device createDevice(String device_name) {
         // Initially set the return item to null.
-        Device retItem = new Device(device_name, true, DeviceType.MOVE,null);
+        Device retItem = new Device();
         return retItem;
     }
 }
