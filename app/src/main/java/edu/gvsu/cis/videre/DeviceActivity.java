@@ -182,7 +182,7 @@ public class DeviceActivity extends AppCompatActivity
         // Set up the input
         final EditText input = new EditText(this);
         // Specify the type of input expected.
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setInputType(InputType.TYPE_NULL);
         builder.setView(input);
 
         // Set up the buttons
@@ -192,6 +192,8 @@ public class DeviceActivity extends AppCompatActivity
 //                Device newDevice = DeviceContent.createDevice(input.getText().toString());
 //                addDeviceToList(newDevice);
                 Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
+                intent.putExtra("Latitude",item.location.latitude);
+                intent.putExtra("Longitude",item.location.longitude);
                 startActivity(intent);
             }
         });

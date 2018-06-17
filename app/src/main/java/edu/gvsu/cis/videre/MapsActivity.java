@@ -73,8 +73,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Bundle extras = getIntent().getExtras();
+        double latitude = 0;
+        double longitude = 0;
+        if (extras != null) {
+            latitude = extras.getDouble("Latitude");
+            longitude = extras.getDouble("Longitude");
+        }
         mo = new MarkerOptions().position(new LatLng(0, 0)).title("My Current Location");
-        mo2 = new MarkerOptions().position(new LatLng(0,0)).title("My Device Location");
+        //mo2 = new MarkerOptions().position(new LatLng(latitude, longitude)).title("My Device Location");
+        mo2 = new MarkerOptions().position(new LatLng(0, 0)).title("My Device Location");
         if (Build.VERSION.SDK_INT >= 23 && !isPermissionGranted()) {
             requestPermissions(PERMISSIONS, PERMISSION_ALL);
         } else requestLocation();
