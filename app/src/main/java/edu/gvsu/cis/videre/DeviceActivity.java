@@ -1,9 +1,11 @@
 package edu.gvsu.cis.videre;
 
 import android.app.Fragment;
+import android.bluetooth.BluetoothClass;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -66,30 +68,36 @@ public class DeviceActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(Device item) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Title");
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        builder.setTitle("Title");
+//
+//        // Set up the input
+//        final EditText input = new EditText(this);
+//        // Specify the type of input expected.
+//        input.setInputType(InputType.TYPE_CLASS_TEXT);
+//        builder.setView(input);
+//
+//        // Set up the buttons
+//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Device newDevice = DeviceContent.createDevice(input.getText().toString());
+//                addDeviceToList(newDevice);
+//            }
+//        });
+//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+//
+//        builder.show();
 
-        // Set up the input
-        final EditText input = new EditText(this);
-        // Specify the type of input expected.
-        input.setInputType(InputType.TYPE_CLASS_TEXT);
-        builder.setView(input);
-
-        // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Device newDevice = DeviceContent.createDevice(input.getText().toString());
-                addDeviceToList(newDevice);
-            }
-        });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-
-        builder.show();
+        Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
+        Parcelable parcel  =  Parcels.wrap(item);
+        intent.putExtra("DEVICE",parcel);
+        setResult(RESULT_OK,intent);
+        finish();
     }
 }
