@@ -41,26 +41,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Device mDevice;
     LocationManager locationManager;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        CurrentSession.getInstance().getDatabaseRef().
-                child(CurrentSession.getInstance().getUser().getEmail()).child("Device").
-                addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Device entry = (Device) dataSnapshot.getValue(Device.class);
-                        mDevice = entry;
-                        LatLng myDevice = entry.location;
-                        marker2.setPosition(myDevice);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        CurrentSession.getInstance().getDatabaseRef().
+//                child(CurrentSession.getInstance().getUser().getEmail()).child("Device").
+//                addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        Device entry = (Device) dataSnapshot.getValue(Device.class);
+//                        mDevice = entry;
+//                        LatLng myDevice = entry.location;
+//                        marker2.setPosition(myDevice);
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +89,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onLocationChanged(Location location) {
-        LatLng myCoordinates = new LatLng(location.getLatitude(), location.getLongitude());
+        LatLng myCoordinates = new LatLng(29, 98);
         marker.setPosition(myCoordinates);
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myCoordinates));
 

@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import edu.gvsu.cis.videre.dummy.DeviceContent;
+
 public class DeviceActivity extends AppCompatActivity
         implements DeviceFragment.OnListFragmentInteractionListener {
 
@@ -174,35 +176,38 @@ public class DeviceActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(Device item) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        builder.setTitle("Title");
-//
-//        // Set up the input
-//        final EditText input = new EditText(this);
-//        // Specify the type of input expected.
-//        input.setInputType(InputType.TYPE_CLASS_TEXT);
-//        builder.setView(input);
-//
-//        // Set up the buttons
-//        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Go to Map?");
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected.
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
 //                Device newDevice = DeviceContent.createDevice(input.getText().toString());
 //                addDeviceToList(newDevice);
-//            }
-//        });
-//        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
-//
-//        builder.show();
-        Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
-        Parcelable parcel  =  Parcels.wrap(item);
-        intent.putExtra("DEVICE",parcel);
-        setResult(RESULT_OK,intent);
-        finish();
+                Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+//        Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
+//        startActivity(intent);
+//        Parcelable parcel  =  Parcels.wrap(item);
+//        intent.putExtra("DEVICE",parcel);
+//        setResult(RESULT_OK,intent);
+//        finish();
     }
 }
