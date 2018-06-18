@@ -72,7 +72,7 @@ public class BluetoothActivity extends AppCompatActivity
 
     private void startScan() {
         if (!hasPermissions() || mScanning) {
-            txtBtStatus.setText("Not allowed!");
+            txtBtStatus.setText(getResources().getString(R.string.not_allowed));
 
             return;
         }
@@ -89,7 +89,7 @@ public class BluetoothActivity extends AppCompatActivity
         mBluetoothLeScanner = mBluetoothAdapter.getBluetoothLeScanner();
         mBluetoothLeScanner.startScan(filters, settings, mScanCallback);
 
-        txtBtStatus.setText("Started Scan!");
+        txtBtStatus.setText(getResources().getString(R.string.scan_started));
 
         mScanning = true;
         mHandler = new Handler();
@@ -99,7 +99,7 @@ public class BluetoothActivity extends AppCompatActivity
     private void stopScan() {
         if (mScanning && mBluetoothAdapter != null && mBluetoothAdapter.isEnabled() && mBluetoothLeScanner != null) {
             mBluetoothLeScanner.stopScan(mScanCallback);
-            txtBtStatus.setText("Stopped Scan!");
+            txtBtStatus.setText(getResources().getString(R.string.scan_stopped));
             scanComplete();
         }
 
@@ -111,14 +111,12 @@ public class BluetoothActivity extends AppCompatActivity
     private void scanComplete() {
 
         if (mScanResults.isEmpty()) {
-            txtBtStatus.setText("No Results");
+            txtBtStatus.setText(getResources().getString(R.string.no_results));
 
             return;
         }
         for (String deviceAddress : mScanResults.keySet()) {
-            txtBtStatus.setText("Found Device");
-
-            Log.d(TAG, "Found device: " + deviceAddress);
+            txtBtStatus.setText(getResources().getString(R.string.device_found));
         }
     }
 
@@ -128,7 +126,6 @@ public class BluetoothActivity extends AppCompatActivity
     private void requestBluetoothEnable() {
         Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        Log.d(TAG, "Requested user enables Bluetooth. Try starting the scan again.");
     }
 
     /**
@@ -170,7 +167,7 @@ public class BluetoothActivity extends AppCompatActivity
         // Make sure BLE is possible on the current device.
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
 
-            txtBtStatus.setText("BLE not supported...");
+            txtBtStatus.setText(getResources().getString(R.string.ble_not_supported));
         }
 
         mBluetoothManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
@@ -184,7 +181,8 @@ public class BluetoothActivity extends AppCompatActivity
     public void onListFragmentInteraction(BluetoothItem item) {
         Intent resultIntent = new Intent();
         if(!mBluetoothLeService.connect(item.address, txtBtStatus, mBluetoothManager, mBluetoothAdapter)) {
-            Snackbar.make(findViewById(R.id.bluetoothLayout), R.string.bt_connection_failed, Snackbar.LENGTH_LONG)
+            Snackbar.make(findViewById(R.id.bluetoothLayout), getResources().getString(R.string.bt_connection_failed),
+                    Snackbar.LENGTH_LONG)
                     .show();
         }
         resultIntent.putExtra("BT_NAME", item.name);
@@ -196,13 +194,13 @@ public class BluetoothActivity extends AppCompatActivity
         @Override
         public void onScanResult(int callbackType, ScanResult result) {
 
-            txtBtStatus.setText("Got Scan Result!");
+            txtBtStatus.setText(getResources().getString(R.string.got_scan_result));
             addScanResult(result);
         }
         @Override
         public void onBatchScanResults(List<ScanResult> results) {
 
-            txtBtStatus.setText("Got batch scan result!");
+            txtBtStatus.setText(getResources().getString(R.string.got_batch_scan_result));
 
             for (ScanResult result : results) {
                 addScanResult(result);
@@ -211,7 +209,7 @@ public class BluetoothActivity extends AppCompatActivity
         @Override
         public void onScanFailed(int errorCode) {
 
-            txtBtStatus.setText("Scan failed!");
+            txtBtStatus.setText(getResources().getString(R.string.scan_failed));
 
             Log.e(TAG, "BLE Scan Failed with code " + errorCode);
         }
@@ -220,7 +218,7 @@ public class BluetoothActivity extends AppCompatActivity
             String deviceAddress = device.getAddress();
             mBluetoothItem = new BluetoothItem();
             if((mBluetoothItem.name = device.getName()) == null) {
-                mBluetoothItem.name = "No name";
+                mBluetoothItem.name = getResources().getString(R.string.no_name);
             }
             mBluetoothItem.address = deviceAddress;
 

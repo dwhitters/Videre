@@ -27,7 +27,6 @@ public class BluetoothFragment extends Fragment {
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
     public BluetoothListAdapter btFragmentAdapter;
-
     private List<BluetoothItem> bluetoothDevices;
 
 

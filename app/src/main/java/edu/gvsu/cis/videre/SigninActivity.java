@@ -48,10 +48,10 @@ public class SigninActivity extends AppCompatActivity {
 
         if(emailStr.length() == 0)
         {
-            Snackbar.make(email, "Email field empty!", Snackbar.LENGTH_LONG)
+            Snackbar.make(email, getResources().getString(R.string.email_empty), Snackbar.LENGTH_LONG)
                     .show();
         } else if (passStr.length() == 0) {
-            Snackbar.make(email, "Password field empty!", Snackbar.LENGTH_LONG)
+            Snackbar.make(email, getResources().getString(R.string.password_empty), Snackbar.LENGTH_LONG)
                     .show();
         } else {
             mAuth.signInWithEmailAndPassword(emailStr, passStr)
@@ -64,7 +64,7 @@ public class SigninActivity extends AppCompatActivity {
                             startActivity(toMain);
                             finish();
                         } else {
-                            Snackbar.make(email, R.string.incorrect_password, Snackbar.LENGTH_LONG)
+                            Snackbar.make(email, getResources().getString(R.string.incorrect_password), Snackbar.LENGTH_LONG)
                                     .show();
                         }
                     });

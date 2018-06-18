@@ -59,7 +59,8 @@ public class SetupActivity extends AppCompatActivity {
     @OnClick(R.id.fab) void fab() {
         getDeviceData();
         if(newDeviceName.equals("")) {
-            Snackbar.make(findViewById(R.id.setupLayout), R.string.device_name_must_be_given, Snackbar.LENGTH_LONG)
+            Snackbar.make(findViewById(R.id.setupLayout), getResources().getString(R.string.device_name_must_be_given),
+                    Snackbar.LENGTH_LONG)
                     .show();
         } else {
             // Create the new device.
@@ -81,11 +82,13 @@ public class SetupActivity extends AppCompatActivity {
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish(); // Close the current activity.
 //                } else {
-//                    Snackbar.make(findViewById(R.id.setupLayout), "BLE Data Transfer Failed!", Snackbar.LENGTH_LONG)
+//                    Snackbar.make(findViewById(R.id.setupLayout), getResources().getString(R.string.ble_data_transfer_failed),
+//                              Snackbar.LENGTH_LONG)
 //                            .show();
 //                }
 //            } else {
-//                Snackbar.make(findViewById(R.id.setupLayout), "Bluetooth Not Connected!", Snackbar.LENGTH_LONG)
+//                Snackbar.make(findViewById(R.id.setupLayout), getResources().getString(R.string.bluetooth_not_connected),
+//                          Snackbar.LENGTH_LONG)
 //                        .show();
 //            }
         }

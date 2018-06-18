@@ -97,8 +97,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Set the marker Option, lets us know that we have 2 markers. These are
         //The original locations for the markers to start, they will not be used unless validation is not
         //given or if the database is not being accessed
-        mo = new MarkerOptions().position(new LatLng(0, 0)).title("My Current Location");
-        mo2 = new MarkerOptions().position(new LatLng(mDevice.latitude, mDevice.longitude)).title("My Device Location");
+        mo = new MarkerOptions().position(new LatLng(0, 0)).title(getResources().getString(R.string.my_current_location));
+        mo2 = new MarkerOptions().position(new LatLng(mDevice.latitude, mDevice.longitude)).title(getResources().getString(R.string.my_device_location));
         //mo2 = new MarkerOptions().position(new LatLng(0, 0)).title("My Device Location");
         if (Build.VERSION.SDK_INT >= 23 && !isPermissionGranted()) {
             requestPermissions(PERMISSIONS, PERMISSION_ALL);
@@ -157,10 +157,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED || checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-            Log.v("mylog", "Permission is granted");
             return true;
         } else {
-            Log.v("mylog", "Permission not granted");
             return false;
         }
     }
@@ -168,14 +166,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void showAlert(final int status) {
         String message, title, btnText;
         if (status == 1) {
-            message = "Your Location Settings is set to 'Off'. \n Please Enable Location to " +
-                    "use this app";
-            title = "Enable Location";
-            btnText = "Location Setings";
+            message = getResources().getString(R.string.location_permissions_request_1);
+            title = getResources().getString(R.string.enable_location);
+            btnText = getResources().getString(R.string.location_settings);
         } else {
-            message = "Please allow this app to access location!";
-            title = "Permission access";
-            btnText = "Grant";
+            message = getResources().getString(R.string.location_permissions_request_1);
+            title = getResources().getString(R.string.permission_access);
+            btnText = getResources().getString(R.string.grant);
         }
         final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setCancelable(false);
@@ -191,7 +188,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             requestPermissions(PERMISSIONS, PERMISSION_ALL);
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();

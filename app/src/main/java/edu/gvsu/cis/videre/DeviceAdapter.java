@@ -1,5 +1,6 @@
 package edu.gvsu.cis.videre;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,8 +24,10 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
     private final OnListFragmentInteractionListener mListener;
     private static final int TYPE_HEAD = 0;
     private static final int TYPE_LIST = 1;
+    private Context mContext;
 
-    public DeviceAdapter(List<Device> items, OnListFragmentInteractionListener listener) {
+    public DeviceAdapter(List<Device> items, OnListFragmentInteractionListener listener, Context context) {
+        mContext = context;
         mValues = items;
         mListener = listener;
     }
@@ -67,9 +70,9 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
             });
 
         } else if(holder.view_Type == TYPE_HEAD) {
-            holder.title_Device.setText("DEVICE");
-            holder.title_Use.setText("USE");
-            holder.title_Setting.setText("SETTING");
+            holder.title_Device.setText(mContext.getResources().getString(R.string.device_list_header));
+            holder.title_Use.setText(mContext.getResources().getString(R.string.use_list_header));
+            holder.title_Setting.setText(mContext.getResources().getString(R.string.setting_list_header));
         }
     }
 

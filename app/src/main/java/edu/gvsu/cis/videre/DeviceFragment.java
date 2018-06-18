@@ -82,7 +82,7 @@ public class DeviceFragment extends Fragment {
             }
 
             // Set the mAdapter attribute and pass it to the recycler view.
-            recyclerView.setAdapter(mAdapter = new DeviceAdapter(userDevices, mListener));
+            recyclerView.setAdapter(mAdapter = new DeviceAdapter(userDevices, mListener, getActivity()));
         }
         return view;
     }

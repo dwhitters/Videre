@@ -94,13 +94,12 @@ public class BluetoothLeService extends Service{
 
                 intentAction = ACTION_GATT_CONNECTED;
                 mConnectionState = STATE_CONNECTED;
-                Log.i(TAG, "Connected to GATT server.");
                 // Attempts to discover services after successful connection.
                 Log.i(TAG, "Attempting to start service discovery:" +
                         mBluetoothGatt.discoverServices());
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                mView.setText("Disconnected!");
+                mView.setText(getResources().getString(R.string.disconnected));
 
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
@@ -131,32 +130,16 @@ public class BluetoothLeService extends Service{
         }
 
         @Override
-        public void onCharacteristicRead(BluetoothGatt gatt,
-                                         BluetoothGattCharacteristic characteristic,
-                                         int status) {
-            mView.setText("Characteristic Read");
-
-            if (status == BluetoothGatt.GATT_SUCCESS) {
-                //broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
-            }
-        }
-
-        @Override
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
-            mView.setText("Characteristic Changed!");
-
             byte[] messageBytes = characteristic.getValue();
             String messageString = null;
             try {
                 messageString = new String(messageBytes, "UTF-8");
             } catch (Exception e) {
-                mView.setText("Failed to convert string...");
             }
 
-            mView.setText("New val: " + messageString);
-
-            //  broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+            mView.setText(getResources().getString(R.string.new_val) + ": " + messageString);
         }
     };
 
@@ -252,13 +235,13 @@ public class BluetoothLeService extends Service{
      *         callback.
      */
     public boolean connect(final String address, TextView view, BluetoothManager manager, BluetoothAdapter adapter) {
-        view.setText("Connecting...");
+        view.setText(getResources().getString(R.string.connecting));
 
         mBluetoothAdapter = adapter;
         mBluetoothManager = manager;
         mView = view;
         if (mBluetoothAdapter == null || address == null) {
-            view.setText("BT Not initialized");
+            view.setText(getResources().getString(R.string.bluetooth_not_initialized));
 
             Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
             return false;
@@ -276,14 +259,13 @@ public class BluetoothLeService extends Service{
             }
         }
 
-        view.setText("Getting remote device");
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         if (device == null) {
             Log.w(TAG, "Device not found.  Unable to connect.");
-            view.setText("Device not found");
+            view.setText(getResources().getString(R.string.device_not_found));
             return false;
         }
-        view.setText("Connecting to Gatt.");
+        view.setText(getResources().getString(R.string.connecting_to_gatt));
 
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.

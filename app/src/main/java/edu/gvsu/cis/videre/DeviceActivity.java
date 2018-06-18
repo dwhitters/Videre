@@ -160,7 +160,7 @@ public class DeviceActivity extends AppCompatActivity
                 onResume(); // Set the listener and device ref now.
             }
         } else {
-            Snackbar.make(findViewById(R.id.deviceCoordinatorLayout), R.string.device_name_in_use, Snackbar.LENGTH_LONG)
+            Snackbar.make(findViewById(R.id.deviceCoordinatorLayout), getResources().getString(R.string.device_name_in_use), Snackbar.LENGTH_LONG)
                     .show();
         }
     }
@@ -182,9 +182,9 @@ public class DeviceActivity extends AppCompatActivity
     public void onListFragmentInteraction(Device item) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         if(longClickOccurred) {
-            builder.setTitle("Delete Device?");
+            builder.setTitle(getResources().getString(R.string.delete_device));
         } else {
-            builder.setTitle("Go to Map?");
+            builder.setTitle(getResources().getString(R.string.go_to_map));
         }
 
         // Set up the input
@@ -194,7 +194,7 @@ public class DeviceActivity extends AppCompatActivity
         builder.setView(input);
 
         // Set up the buttons
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getResources().getString(R.string.okay), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 //                Device newDevice = DeviceContent.createDevice(input.getText().toString());
@@ -206,7 +206,7 @@ public class DeviceActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();

@@ -70,11 +70,11 @@ public class NewUserActivity extends AppCompatActivity {
         String conPassStr = conPass.getText().toString();
 
         if(!passStr.equals(conPassStr)) {
-            Snackbar.make(email,"Passwords don't match!", Snackbar.LENGTH_LONG)
+            Snackbar.make(email, getResources().getString(R.string.passwords_not_matching), Snackbar.LENGTH_LONG)
                     .show();
         }
         else if (passStr.length() < 6) {
-            Snackbar.make(email,"Password too short!", Snackbar.LENGTH_LONG)
+            Snackbar.make(email, getResources().getString(R.string.password_too_short), Snackbar.LENGTH_LONG)
                     .show();
         } else {
             mAuth.createUserWithEmailAndPassword(emailStr, passStr)
@@ -93,7 +93,7 @@ public class NewUserActivity extends AppCompatActivity {
                             startActivity(toMain);
                             finish();
                         } else {
-                            Snackbar.make(email, R.string.fail_toCreate, Snackbar.LENGTH_LONG)
+                            Snackbar.make(email, getResources().getString(R.string.fail_toCreate), Snackbar.LENGTH_LONG)
                                     .show();
                         }
                     });
@@ -112,10 +112,5 @@ public class NewUserActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         init();
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
     }
 }
