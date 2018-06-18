@@ -31,6 +31,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.parceler.Parcels;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     final static int PERMISSION_ALL = 1;
@@ -72,6 +75,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     };
 
+    public void init() {
+        ButterKnife.bind(this);
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +105,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else requestLocation();
         if (!isLocationEnabled())
             showAlert(1);
+
+        init();
     }
 
     @Override
@@ -194,5 +204,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onPause() {
         super.onPause();
         deviceRef.removeEventListener(listener);
+    }
+
+    @OnClick(R.id.radioUser) void radioUser() {
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
+    }
+
+    @OnClick(R.id.radioDevice) void radioDevice() {
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(myDevice));
     }
 }

@@ -18,4 +18,6 @@
     <string name="incorrect_password">Incorrect username or password!</string>
     <string name="bt_connection_failed">Bluetooth Connection Failed!</string>
     <string name="fail_toCreate">Failed to Create Account!</string>
+    <string name="user_Location">User Location</string>
+    <string name="device_Location">Device Location</string>
 </resources>
