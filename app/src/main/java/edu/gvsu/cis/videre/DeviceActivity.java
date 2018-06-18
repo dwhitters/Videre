@@ -204,7 +204,6 @@ public class DeviceActivity extends AppCompatActivity
                 retBundle.putParcelable("device", Parcels.wrap(item));
                 intent.putExtra("device", retBundle);
                 startActivity(intent);
-                finish();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
