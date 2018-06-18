@@ -61,36 +61,43 @@ public class NewUserActivity extends AppCompatActivity {
 
     @BindView(R.id.newLog) EditText email;
     @BindView(R.id.newPass) EditText passwd;
-
-    String emailStr;
-    String passStr;
+    @BindView(R.id.conPass) EditText conPass;
 
     @OnClick(R.id.createUser) void createUser() {
 
-        emailStr = email.getText().toString();
-        passStr = passwd.getText().toString();
+        String emailStr = email.getText().toString();
+        String passStr = passwd.getText().toString();
+        String conPassStr = conPass.getText().toString();
 
-        mAuth.createUserWithEmailAndPassword(emailStr, passStr)
-                .addOnCompleteListener(this, task -> {
-                    if(task.isSuccessful()) {
-                        CurrentSession.getInstance().setUser(mAuth.getCurrentUser());
-                        Intent toMain = new Intent(NewUserActivity.this, DeviceActivity.class);
-                        // Create new node in the database for the user.
-                        DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
-                        HashMap<String, String> newUserEmail = new HashMap<>();
-                        newUserEmail.put("email", emailStr);
-                        usersRef.child(mAuth.getCurrentUser().getUid()).setValue(newUserEmail);
+        if(!passStr.equals(conPassStr)) {
+            Snackbar.make(email,"Passwords don't match!", Snackbar.LENGTH_LONG)
+                    .show();
+        }
+        else if (passStr.length() < 6) {
+            Snackbar.make(email,"Password too short!", Snackbar.LENGTH_LONG)
+                    .show();
+        } else {
+            mAuth.createUserWithEmailAndPassword(emailStr, passStr)
+                    .addOnCompleteListener(this, task -> {
+                        if (task.isSuccessful()) {
+                            CurrentSession.getInstance().setUser(mAuth.getCurrentUser());
+                            Intent toMain = new Intent(NewUserActivity.this, DeviceActivity.class);
+                            // Create new node in the database for the user.
+                            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference().child("users");
+                            HashMap<String, String> newUserEmail = new HashMap<>();
+                            newUserEmail.put("email", emailStr);
+                            usersRef.child(mAuth.getCurrentUser().getUid()).setValue(newUserEmail);
 
-                        CurrentSession.getInstance().setDatabaseRef(
-                                FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid()));
-                        startActivity(toMain);
-                        finish();
-                    } else {
-                        Snackbar.make(email,R.string.fail_toCreate,
-                                Snackbar.LENGTH_LONG)
-                                .show();
-                    }
-                });
+                            CurrentSession.getInstance().setDatabaseRef(
+                                    FirebaseDatabase.getInstance().getReference().child("users").child(mAuth.getCurrentUser().getUid()));
+                            startActivity(toMain);
+                            finish();
+                        } else {
+                            Snackbar.make(email, R.string.fail_toCreate, Snackbar.LENGTH_LONG)
+                                    .show();
+                        }
+                    });
+        }
     }
 
     public void init() {

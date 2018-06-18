@@ -171,7 +171,6 @@ public class BluetoothActivity extends AppCompatActivity
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
 
             txtBtStatus.setText("BLE not supported...");
-          //  finish();
         }
 
         mBluetoothManager = (BluetoothManager) getSystemService(BLUETOOTH_SERVICE);
