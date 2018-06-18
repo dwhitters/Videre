@@ -26,7 +26,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+
+import org.parceler.Parcels;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -40,29 +43,34 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Marker marker2;
     LatLng myCoordinates;
     Device mDevice;
+    LatLng myDevice;
     LocationManager locationManager;
+    DatabaseReference deviceRef;
 
     @Override
     public void onResume() {
         super.onResume();
-        CurrentSession.getInstance().getDatabaseRef().
-                child("user").child("Device").
-                addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Device entry = (Device) dataSnapshot.getValue(Device.class);
-                        mDevice = entry;
-                        //LatLng myDevice = entry.location;
-                        LatLng myDevice = new LatLng(marker.getPosition().latitude +3,marker.getPosition().longitude +3);
-                        marker2.setPosition(myDevice);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
+                deviceRef.addValueEventListener(listener);
     }
+
+    ValueEventListener listener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            Device entry = (Device) dataSnapshot.getValue(Device.class);
+            if(entry != null)
+            {
+                myDevice = new LatLng(entry.latitude,entry.longitude);
+            } else {
+                myDevice = new LatLng(marker2.getPosition().latitude ,marker2.getPosition().longitude );
+            }
+            marker2.setPosition(myDevice);
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,23 +81,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Bundle extras = getIntent().getExtras();
-        double latitude = 0;
-        double longitude = 0;
-        if (extras != null) {
-            latitude = extras.getDouble("Latitude");
-            longitude = extras.getDouble("Longitude");
-        }
+        //come back later
+        mDevice = Parcels.unwrap(getIntent().getBundleExtra("device").getParcelable("device"));
+        deviceRef = CurrentSession.getInstance().getDatabaseRef().child("devices").
+                child(mDevice.key);
+
+        //Set the marker Option, lets us know that we have 2 markers. These are
+        //The original locations for the markers to start, they will not be used unless validation is not
+        //given or if the database is not being accessed
         mo = new MarkerOptions().position(new LatLng(0, 0)).title("My Current Location");
-        //mo2 = new MarkerOptions().position(new LatLng(latitude, longitude)).title("My Device Location");
-        mo2 = new MarkerOptions().position(new LatLng(0, 0)).title("My Device Location");
+        mo2 = new MarkerOptions().position(new LatLng(mDevice.latitude, mDevice.longitude)).title("My Device Location");
+        //mo2 = new MarkerOptions().position(new LatLng(0, 0)).title("My Device Location");
         if (Build.VERSION.SDK_INT >= 23 && !isPermissionGranted()) {
             requestPermissions(PERMISSIONS, PERMISSION_ALL);
         } else requestLocation();
         if (!isLocationEnabled())
             showAlert(1);
     }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -180,5 +188,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     }
                 });
         dialog.show();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        deviceRef.removeEventListener(listener);
     }
 }

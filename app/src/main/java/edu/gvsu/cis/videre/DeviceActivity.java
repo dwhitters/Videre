@@ -1,4 +1,5 @@
 package edu.gvsu.cis.videre;
+import android.app.Activity;
 import android.app.Fragment;
 import android.bluetooth.BluetoothClass;
 import android.content.DialogInterface;
@@ -196,14 +197,14 @@ public class DeviceActivity extends AppCompatActivity
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(longClickOccurred) {
-                    deleteItem(item.key);
-                } else {
-                    Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
-                    intent.putExtra("Latitude", item.latitude);
-                    intent.putExtra("Longitude", item.longitude);
-                    startActivity(intent);
-                }
+//                Device newDevice = DeviceContent.createDevice(input.getText().toString());
+//                addDeviceToList(newDevice);
+                Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
+                Bundle retBundle = new Bundle();
+                retBundle.putParcelable("device", Parcels.wrap(item));
+                intent.putExtra("device", retBundle);
+                startActivity(intent);
+                finish();
             }
         });
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

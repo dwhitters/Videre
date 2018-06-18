@@ -14,8 +14,8 @@ public class Device {
     public boolean inUse = false;
     public DeviceType deviceType = null;
     String key;
-    public double latitude;
-    public double longitude;
+    public double latitude = 0.0;
+    public double longitude = 0.0;
 
     @Override
     public String toString() {
