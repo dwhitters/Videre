@@ -199,40 +199,49 @@ public class DeviceActivity extends AppCompatActivity
 
     @Override
     public void onListFragmentInteraction(Device item) {
-        if(item.inUse) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            if(longClickOccurred) {
-                builder.setTitle(getResources().getString(R.string.delete_device));
-            } else {
-                builder.setTitle(getResources().getString(R.string.go_to_map));
-            }
-
-            // Set up the input
-            final EditText input = new EditText(this);
-            // Specify the type of input expected.
-            input.setInputType(InputType.TYPE_NULL);
-            builder.setView(input);
-
-            // Set up the buttons
-            builder.setPositiveButton(getResources().getString(R.string.okay), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
-                    Bundle retBundle = new Bundle();
-                    retBundle.putParcelable("device", Parcels.wrap(item));
-                    intent.putExtra("device", retBundle);
-                    startActivity(intent);
-                }
-            });
-            builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-
-            builder.show();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        if(longClickOccurred) {
+            builder.setTitle(getResources().getString(R.string.delete_device));
+        } else {
+            builder.setTitle(getResources().getString(R.string.go_to_map));
         }
+
+        // Set up the input
+        final EditText input = new EditText(this);
+        // Specify the type of input expected.
+        input.setInputType(InputType.TYPE_NULL);
+        builder.setView(input);
+
+        // Set up the buttons
+        builder.setPositiveButton(getResources().getString(R.string.okay), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if(longClickOccurred) {
+                    deleteItem(item.key);
+                    longClickOccurred = false;
+                } else {
+                    if(item.inUse) {
+                        Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
+                        Bundle retBundle = new Bundle();
+                        retBundle.putParcelable("device", Parcels.wrap(item));
+                        intent.putExtra("device", retBundle);
+                        startActivity(intent);
+                    } else {
+                        Snackbar.make(findViewById(R.id.deviceCoordinatorLayout),
+                                getResources().getString(R.string.device_not_in_use), Snackbar.LENGTH_LONG)
+                                .show();
+                    }
+                }
+            }
+        });
+        builder.setNegativeButton(getResources().getString(R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @Override

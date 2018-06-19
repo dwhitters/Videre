@@ -61,4 +61,5 @@
     <string name="header_in_use">In Use</string>
     <string name="header_device">Device</string>
     <string name="header_settings">Setting</string>
+    <string name="device_not_in_use">Device not in use!</string>
 </resources>

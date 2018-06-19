@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.RadioButton;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,6 +41,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -166,6 +168,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             drawMarkerWithCircle(marker2.getPosition());
         }
 
+        // Set the user radio button true on init.
+        radioUserBtn.setChecked(true);
     }
 
     @Override
@@ -253,6 +257,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onPause();
         deviceRef.removeEventListener(listener);
     }
+
+    @BindView(R.id.radioUser) RadioButton radioUserBtn;
 
     @OnClick(R.id.radioUser) void radioUser() {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
