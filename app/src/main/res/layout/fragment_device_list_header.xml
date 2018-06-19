@@ -6,35 +6,35 @@
 
     <TextView
         android:layout_height="match_parent"
-        android:layout_width="75dp"
-        android:text="Device"
+        android:layout_width="wrap_content"
+        android:text="@string/header_device"
         android:textColor="#ffffff"
         android:textSize="20dp"
         android:textStyle="bold"
         android:gravity="center"
         android:id="@+id/h_device"
-        android:layout_marginLeft="15dp" />
+        android:layout_weight="1"/>
 
     <TextView
         android:layout_height="match_parent"
-        android:layout_width="150dp"
-        android:text="In Use"
+        android:layout_width="wrap_content"
+        android:text="@string/header_in_use"
         android:textColor="#ffffff"
         android:textSize="20dp"
         android:textStyle="bold"
         android:gravity="center"
         android:id="@+id/h_inUse"
-        android:layout_marginLeft="10dp" />
+        android:layout_weight="1"/>
 
     <TextView
         android:layout_height="match_parent"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_weight="1"
-        android:text="Setting"
+        android:text="@string/header_settings"
         android:textColor="#ffffff"
         android:textSize="20dp"
         android:textStyle="bold"
         android:gravity="center"
-        android:id="@+id/h_setting" />
+        android:id="@+id/h_setting"/>
 
 </LinearLayout>

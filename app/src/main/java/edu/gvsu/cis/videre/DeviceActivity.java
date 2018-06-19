@@ -71,6 +71,9 @@ public class DeviceActivity extends AppCompatActivity
                 deviceListExists = false; // Set when the devices node is non-existent.
             }
         });
+
+		// Start the background task.
+        new DemoTask().execute();
     }
 
     @Override

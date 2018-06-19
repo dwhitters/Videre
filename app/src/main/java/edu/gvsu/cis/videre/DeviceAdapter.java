@@ -102,7 +102,7 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
                 mSettingView = (TextView) view.findViewById(R.id.content);
                 view_Type = 1;
                 //checkbox click event handling
-                mInUseView.setOnCheckedChangeListener((k,v) -> {
+                mInUseView.setOnClickListener(v -> {
                        for(Device d : mValues) {
                            if(d.id.equals(mDeviceNameView.getText())) {
                                d.inUse = mInUseView.isChecked();

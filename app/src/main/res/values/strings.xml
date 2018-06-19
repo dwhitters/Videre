@@ -57,4 +57,7 @@
     <string name="new_val">New val</string>
     <string name="user_Location">User Location</string>
     <string name="device_Location">Device Location</string>
+    <string name="header_in_use">In Use</string>
+    <string name="header_device">Device</string>
+    <string name="header_settings">Setting</string>
 </resources>
