@@ -14,10 +14,12 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import org.joda.time.DateTime;
 import org.parceler.Parcels;
 import org.parceler.transfuse.annotations.Bind;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -68,8 +70,12 @@ public class SetupActivity extends AppCompatActivity {
             newDevice.id = newDeviceName;
             newDevice.inUse = true;
             newDevice.deviceType = newDeviceType;
-            newDevice.latitude = 0.0;
-            newDevice.longitude = 0.0;
+            newDevice.history = new ArrayList<DeviceLocation>();
+            DeviceLocation newLocation = new DeviceLocation();
+            newLocation.latitude = 0.0;
+            newLocation.longitude = 0.0;
+            newLocation.timeStamp = DateTime.now().toString().split("\\.")[0];
+            newDevice.history.add(newLocation);
 
            if(mBleService.isBluetoothConnected()) {
                 if(mBleService.btSendData(String.valueOf(newDeviceType.getVal()))) {

@@ -69,7 +69,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Device entry = (Device) dataSnapshot.getValue(Device.class);
             if(entry != null)
             {
-                myDevice = new LatLng(entry.latitude,entry.longitude);
+                myDevice = new LatLng(entry.history.get(entry.history.size()-1).latitude,entry.history.get(entry.history.size()-1).longitude);
             } else {
                 myDevice = new LatLng(marker2.getPosition().latitude ,marker2.getPosition().longitude );
             }
@@ -108,14 +108,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //The original locations for the markers to start, they will not be used unless validation is not
         //given or if the database is not being accessed
         mo = new MarkerOptions().position(new LatLng(0, 0)).title("My Current Location");
-        mo2 = new MarkerOptions().position(new LatLng(mDevice.latitude, mDevice.longitude))
+        mo2 = new MarkerOptions().position(new LatLng(mDevice.history.get(mDevice.history.size()-1).latitude,
+                mDevice.history.get(mDevice.history.size()-1).longitude))
                 .title(mDevice.id+ ": Selected Device");
 
         //mo2 = new MarkerOptions().position(new LatLng(0, 0)).title("My Device Location");
         for(int i = 0; i<userDevices.size();i++){
             if(!userDevices.get(i).key.equals(mDevice.key)) {
                 markerOpArr.add(new MarkerOptions().position(new LatLng(userDevices.get(i).
-                        latitude,userDevices.get(i).longitude))
+                        history.get(userDevices.get(i).history.size()-1).latitude,
+                        userDevices.get(i).history.get(userDevices.get(i).history.size()-1).longitude))
                         .title(userDevices.get(i).id));
             }
         }
