@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -30,6 +31,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
 import org.parceler.Parcels;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -44,11 +48,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     MarkerOptions mo2;
     Marker marker;
     Marker marker2;
+    List<Marker> markerList = new ArrayList<>();
     LatLng myCoordinates;
     Device mDevice;
     LatLng myDevice;
     LocationManager locationManager;
     DatabaseReference deviceRef;
+    List<Device> userDevices;
+    List<MarkerOptions> markerOpArr = new ArrayList<>();
 
     @Override
     public void onResume() {
@@ -75,15 +82,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     };
 
+    public List<Device> MapsActivity() {
+        return userDevices = DeviceActivity.userDevices;
+    }
+
+
     public void init() {
         ButterKnife.bind(this);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        MapsActivity();
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -91,15 +103,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         //come back later
         mDevice = Parcels.unwrap(getIntent().getBundleExtra("device").getParcelable("device"));
-        deviceRef = CurrentSession.getInstance().getDatabaseRef().child("devices").
-                child(mDevice.key);
-
+        deviceRef = CurrentSession.getInstance().getDatabaseRef().child("devices").child(mDevice.key);
         //Set the marker Option, lets us know that we have 2 markers. These are
         //The original locations for the markers to start, they will not be used unless validation is not
         //given or if the database is not being accessed
-        mo = new MarkerOptions().position(new LatLng(0, 0)).title(getResources().getString(R.string.my_current_location));
-        mo2 = new MarkerOptions().position(new LatLng(mDevice.latitude, mDevice.longitude)).title(getResources().getString(R.string.my_device_location));
+        mo = new MarkerOptions().position(new LatLng(0, 0)).title("My Current Location");
+        mo2 = new MarkerOptions().position(new LatLng(mDevice.latitude, mDevice.longitude))
+                .title(mDevice.id+ ": Selected Device");
+
         //mo2 = new MarkerOptions().position(new LatLng(0, 0)).title("My Device Location");
+        for(int i = 0; i<userDevices.size();i++){
+            if(!userDevices.get(i).key.equals(mDevice.key)) {
+                System.out.println(i);
+                markerOpArr.add(new MarkerOptions().position(new LatLng(userDevices.get(i).
+                        latitude,userDevices.get(i).longitude))
+                        .title(userDevices.get(i).id));
+            }
+        }
         if (Build.VERSION.SDK_INT >= 23 && !isPermissionGranted()) {
             requestPermissions(PERMISSIONS, PERMISSION_ALL);
         } else requestLocation();
@@ -114,6 +134,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         marker = mMap.addMarker(mo);
         marker2 = mMap.addMarker(mo2);
+        for (int i = 0; i<markerOpArr.size(); i++) {
+            System.out.println(i);
+            markerList.add(mMap.addMarker(new MarkerOptions().
+            position(new LatLng(markerOpArr.get(i).getPosition().latitude,markerOpArr.get(i).
+                    getPosition().longitude)).icon(BitmapDescriptorFactory.
+            defaultMarker(BitmapDescriptorFactory.HUE_CYAN))));
+            markerList.get(i);
+        }
 
     }
 
