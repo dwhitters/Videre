@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
@@ -22,6 +23,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -56,6 +59,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     DatabaseReference deviceRef;
     List<Device> userDevices;
     List<MarkerOptions> markerOpArr = new ArrayList<>();
+    Circle mCircle;
 
     @Override
     public void onResume() {
@@ -73,7 +77,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } else {
                 myDevice = new LatLng(marker2.getPosition().latitude ,marker2.getPosition().longitude );
             }
-            marker2.setPosition(myDevice);
+            if(mDevice.deviceType == DeviceType.STOLEN) {
+                updateMarkerWithCircle(myDevice);
+            } else {
+                marker2.setPosition(myDevice);
+            }
         }
 
         @Override
@@ -141,6 +149,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     getPosition().longitude)).icon(BitmapDescriptorFactory.
             defaultMarker(BitmapDescriptorFactory.HUE_CYAN))));
             markerList.get(i);
+        }
+
+        if(mDevice.deviceType == DeviceType.STOLEN) {
+            drawMarkerWithCircle(marker2.getPosition());
         }
 
     }
@@ -237,5 +249,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @OnClick(R.id.radioDevice) void radioDevice() {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myDevice));
+    }
+
+    private void updateMarkerWithCircle(LatLng position) {
+        mCircle.setCenter(position);
+        marker2.setPosition(position);
+    }
+
+    private void drawMarkerWithCircle(LatLng position){
+        double radiusInMeters = 1000.0;
+        int strokeColor = 0xffff0000; //red outline
+        int shadeColor = 0x44ff0000; //opaque red fill
+
+        CircleOptions circleOptions = new CircleOptions().center(position).radius(radiusInMeters).fillColor(shadeColor).strokeColor(strokeColor).strokeWidth(8);
+        mCircle = mMap.addCircle(circleOptions);
     }
 }
