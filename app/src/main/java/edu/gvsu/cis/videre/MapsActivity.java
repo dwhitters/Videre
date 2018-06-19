@@ -116,7 +116,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         for(int i = 0; i<userDevices.size();i++){
             if(!userDevices.get(i).key.equals(mDevice.key)) {
                 markerOpArr.add(new MarkerOptions().position(new LatLng(userDevices.get(i).
-                        latitude,userDevices.get(i).longitude))
+                        history.get(userDevices.get(i).history.size()-1).latitude,
+                        userDevices.get(i).history.get(userDevices.get(i).history.size()-1).longitude))
                         .title(userDevices.get(i).id));
             }
         }
