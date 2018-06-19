@@ -108,6 +108,10 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
                                d.inUse = mInUseView.isChecked();
                                try {
                                    CurrentSession.getInstance().getDatabaseRef().child("devices").child(d.key).setValue(d);
+                                   if(d.inUse) {
+										// Clear the history to allow
+                                        DeviceActivity.clearHistoryList(d);
+                                   }
                                } catch (Exception e) {
                                    e.printStackTrace();
                                }

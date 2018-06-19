@@ -24,6 +24,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import org.joda.time.DateTime;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class DeviceActivity extends AppCompatActivity
     public static boolean longClickOccurred = false; // Set to true when a list item was long pressed.
 	
     private CurrentSession mCurrentSession;
+    private boolean mDeviceAdded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +141,20 @@ public class DeviceActivity extends AppCompatActivity
     }
 
     /**
+     * Clears all items in the history except for the last one. This is the starting location for the
+     * device now.
+     *
+     * @param device
+     *      The device who's history is being modified.
+     */
+    public static void clearHistoryList(Device device) {
+        DeviceLocation lastLocation = device.history.get(device.history.size()-1);
+        device.history.clear();
+        device.history.add(lastLocation);
+        CurrentSession.getInstance().getDatabaseRef().child("devices").child(device.key).setValue(device);
+    }
+
+    /**
      * Adds a new device to the list of devices if the device name is not already in use.
      * @param newDevice
      *      The device to add.
@@ -197,8 +213,6 @@ public class DeviceActivity extends AppCompatActivity
         builder.setPositiveButton(getResources().getString(R.string.okay), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-//                Device newDevice = DeviceContent.createDevice(input.getText().toString());
-//                addDeviceToList(newDevice);
                 Intent intent = new Intent(DeviceActivity.this, MapsActivity.class);
                 Bundle retBundle = new Bundle();
                 retBundle.putParcelable("device", Parcels.wrap(item));

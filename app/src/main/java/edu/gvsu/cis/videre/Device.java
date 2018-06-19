@@ -4,6 +4,8 @@ import com.google.android.gms.maps.model.LatLng;
 
 import org.parceler.Parcel;
 
+import java.util.List;
+
 /**
  * Holds all the information for a device.
  */
@@ -14,8 +16,8 @@ public class Device {
     public boolean inUse = false;
     public DeviceType deviceType = null;
     String key;
-    public double latitude = 0.0;
-    public double longitude = 0.0;
+
+    List<DeviceLocation> history;
 
     @Override
     public String toString() {
@@ -59,11 +61,7 @@ public class Device {
         return key;
     }
 
-    public double getLatitude() {
-        return latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
+    public List<DeviceLocation> getHistory() {
+        return history;
     }
 }
