@@ -28,6 +28,8 @@ import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,6 +62,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     List<Device> userDevices;
     List<MarkerOptions> markerOpArr = new ArrayList<>();
     Circle mCircle;
+    PolylineOptions rectOptions = new PolylineOptions();
+    Polyline polyline;
 
     @Override
     public void onResume() {
@@ -82,6 +86,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             } else {
                 marker2.setPosition(myDevice);
             }
+            rectOptions.add(myDevice);
+            polyline = mMap.addPolyline(rectOptions);
         }
 
         @Override
@@ -135,6 +141,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (!isLocationEnabled())
             showAlert(1);
 
+        for (int j = 0; j<mDevice.history.size(); j++) {
+            rectOptions.add(new LatLng(mDevice.history.get(j).latitude,mDevice.history.get(j).longitude));
+        }
+
         init();
     }
 
@@ -143,6 +153,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         marker = mMap.addMarker(mo);
         marker2 = mMap.addMarker(mo2);
+        polyline = mMap.addPolyline(rectOptions);
         for (int i = 0; i<markerOpArr.size(); i++) {
             markerList.add(mMap.addMarker(new MarkerOptions().
             position(new LatLng(markerOpArr.get(i).getPosition().latitude,markerOpArr.get(i).
