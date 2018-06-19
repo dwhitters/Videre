@@ -121,10 +121,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //Set the marker Option, lets us know that we have 2 markers. These are
         //The original locations for the markers to start, they will not be used unless validation is not
         //given or if the database is not being accessed
-        mo = new MarkerOptions().position(new LatLng(0, 0)).title("My Current Location");
+        mo = new MarkerOptions().position(new LatLng(0, 0)).title(getResources().getString(R.string.my_current_location));
         mo2 = new MarkerOptions().position(new LatLng(mDevice.history.get(mDevice.history.size()-1).latitude,
                 mDevice.history.get(mDevice.history.size()-1).longitude))
-                .title(mDevice.id+ ": Selected Device");
+                .title(mDevice.id+ getResources().getString(R.string.device_Select));
 
         //mo2 = new MarkerOptions().position(new LatLng(0, 0)).title("My Device Location");
         for(int i = 0; i<userDevices.size();i++){
