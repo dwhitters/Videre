@@ -62,4 +62,6 @@
     <string name="header_device">Device</string>
     <string name="header_settings">Setting</string>
     <string name="device_not_in_use">Device not in use!</string>
+    <string name="my_devices_activity_header">My Devices</string>
+    <string name="setup_activity_header">Setup Device</string>
 </resources>

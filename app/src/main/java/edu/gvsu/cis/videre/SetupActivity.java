@@ -107,6 +107,7 @@ public class SetupActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getResources().getString(R.string.setup_activity_header));
 
         mBleService = BluetoothLeService.getInstance();
 

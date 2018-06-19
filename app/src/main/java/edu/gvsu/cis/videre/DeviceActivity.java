@@ -52,6 +52,7 @@ public class DeviceActivity extends AppCompatActivity
         setContentView(R.layout.activity_device);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(getResources().getString(R.string.my_devices_activity_header));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(v -> {
@@ -113,6 +114,12 @@ public class DeviceActivity extends AppCompatActivity
         }
         @Override
         public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            Device entry = dataSnapshot.getValue(Device.class);
+            for(Device d : userDevices) {
+                if(d.id.equals(entry.id)) {
+                    d = entry; // Update device.
+                }
+            }
         }
         @Override
         public void onChildRemoved(DataSnapshot dataSnapshot) {

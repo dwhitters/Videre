@@ -16,6 +16,7 @@ public class Device {
     public boolean inUse = false;
     public DeviceType deviceType = null;
     String key;
+    public boolean activated = false;
 
     List<DeviceLocation> history;
 
@@ -42,7 +43,7 @@ public class Device {
         Device d = (Device) o;
 
         // Compare the data members and return accordingly
-        return key.equals(d.key);
+        return id.equals(d.id);
     }
 
     public String getId() {
@@ -64,4 +65,6 @@ public class Device {
     public List<DeviceLocation> getHistory() {
         return history;
     }
+
+    public boolean isActivated() { return activated;}
 }

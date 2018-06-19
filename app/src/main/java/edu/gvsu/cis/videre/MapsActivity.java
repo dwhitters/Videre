@@ -66,6 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Circle mCircle;
     PolylineOptions rectOptions = new PolylineOptions();
     Polyline polyline;
+    double radiusInMeters;
 
     @Override
     public void onResume() {
@@ -76,19 +77,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     ValueEventListener listener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            Device entry = (Device) dataSnapshot.getValue(Device.class);
-            if(entry != null)
+            Device mDevice = (Device) dataSnapshot.getValue(Device.class);
+            if(mDevice != null)
             {
-                myDevice = new LatLng(entry.history.get(entry.history.size()-1).latitude,entry.history.get(entry.history.size()-1).longitude);
+                myDevice = new LatLng(mDevice.history.get(mDevice.history.size()-1).latitude,mDevice.history.get(mDevice.history.size()-1).longitude);
             } else {
                 myDevice = new LatLng(marker2.getPosition().latitude ,marker2.getPosition().longitude );
             }
-            if(mDevice.deviceType == DeviceType.STOLEN) {
-                updateMarkerWithCircle(myDevice);
-            } else {
-                marker2.setPosition(myDevice);
+            marker2.setPosition(myDevice);
+
+            if(mDevice.isActivated()){
+                rectOptions.add(myDevice);
             }
-            rectOptions.add(myDevice);
+
             polyline = mMap.addPolyline(rectOptions);
         }
 
@@ -143,8 +144,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         if (!isLocationEnabled())
             showAlert(1);
 
-        for (int j = 0; j<mDevice.history.size(); j++) {
-            rectOptions.add(new LatLng(mDevice.history.get(j).latitude,mDevice.history.get(j).longitude));
+        if(mDevice.isActivated()) {
+            for (int j = 0; j<mDevice.history.size(); j++) {
+                rectOptions.add(new LatLng(mDevice.history.get(j).latitude,mDevice.history.get(j).longitude));
+            }
         }
 
         init();
@@ -163,9 +166,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             defaultMarker(BitmapDescriptorFactory.HUE_CYAN))));
             markerList.get(i);
         }
-
-        if(mDevice.deviceType == DeviceType.STOLEN) {
-            drawMarkerWithCircle(marker2.getPosition());
+        if(mDevice.deviceType == DeviceType.STOLEN && mDevice.history.get(0) != null) {
+            drawMarkerWithCircle(new LatLng(mDevice.history.get(0).latitude,mDevice.history.get(0).longitude));
         }
 
         // Set the user radio button true on init.
@@ -268,13 +270,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.moveCamera(CameraUpdateFactory.newLatLng(myDevice));
     }
 
-    private void updateMarkerWithCircle(LatLng position) {
-        mCircle.setCenter(position);
-        marker2.setPosition(position);
-    }
-
     private void drawMarkerWithCircle(LatLng position){
-        double radiusInMeters = 1000.0;
+        radiusInMeters = 1000.0;
         int strokeColor = 0xffff0000; //red outline
         int shadeColor = 0x44ff0000; //opaque red fill
 

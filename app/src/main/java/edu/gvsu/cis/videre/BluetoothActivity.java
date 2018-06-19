@@ -180,7 +180,7 @@ public class BluetoothActivity extends AppCompatActivity
     @Override
     public void onListFragmentInteraction(BluetoothItem item) {
         Intent resultIntent = new Intent();
-        if(!mBluetoothLeService.connect(item.address, txtBtStatus, mBluetoothManager, mBluetoothAdapter)) {
+        if(!mBluetoothLeService.connect(item.address, txtBtStatus, mBluetoothManager, mBluetoothAdapter, BluetoothActivity.this)) {
             Snackbar.make(findViewById(R.id.bluetoothLayout), getResources().getString(R.string.bt_connection_failed),
                     Snackbar.LENGTH_LONG)
                     .show();

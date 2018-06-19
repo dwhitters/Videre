@@ -59,6 +59,7 @@ public class BluetoothLeService extends Service{
     private int mState = BluetoothGatt.GATT_FAILURE;
     private BluetoothGattCharacteristic mCharacteristic;
     private BluetoothGatt mGatt;
+    private Context mContext;
 
     // Singleton object of the service.
     private static BluetoothLeService single_instance = null;
@@ -99,7 +100,7 @@ public class BluetoothLeService extends Service{
                         mBluetoothGatt.discoverServices());
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
-                mView.setText(getResources().getString(R.string.disconnected));
+                mView.setText(mContext.getResources().getString(R.string.disconnected));
 
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
@@ -139,7 +140,7 @@ public class BluetoothLeService extends Service{
             } catch (Exception e) {
             }
 
-            mView.setText(getResources().getString(R.string.new_val) + ": " + messageString);
+            mView.setText(mContext.getResources().getString(R.string.new_val) + ": " + messageString);
         }
     };
 
@@ -234,14 +235,15 @@ public class BluetoothLeService extends Service{
      *         {@code BluetoothGattCallback#onConnectionStateChange(android.bluetooth.BluetoothGatt, int, int)}
      *         callback.
      */
-    public boolean connect(final String address, TextView view, BluetoothManager manager, BluetoothAdapter adapter) {
-        view.setText(getResources().getString(R.string.connecting));
+    public boolean connect(final String address, TextView view, BluetoothManager manager, BluetoothAdapter adapter, Context context) {
+        view.setText(context.getResources().getString(R.string.connecting));
 
+        mContext = context;
         mBluetoothAdapter = adapter;
         mBluetoothManager = manager;
         mView = view;
         if (mBluetoothAdapter == null || address == null) {
-            view.setText(getResources().getString(R.string.bluetooth_not_initialized));
+            view.setText(context.getResources().getString(R.string.bluetooth_not_initialized));
 
             Log.w(TAG, "BluetoothAdapter not initialized or unspecified address.");
             return false;
@@ -262,10 +264,10 @@ public class BluetoothLeService extends Service{
         final BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(address);
         if (device == null) {
             Log.w(TAG, "Device not found.  Unable to connect.");
-            view.setText(getResources().getString(R.string.device_not_found));
+            view.setText(context.getResources().getString(R.string.device_not_found));
             return false;
         }
-        view.setText(getResources().getString(R.string.connecting_to_gatt));
+        view.setText(context.getResources().getString(R.string.connecting_to_gatt));
 
         // We want to directly connect to the device, so we are setting the autoConnect
         // parameter to false.
@@ -287,6 +289,8 @@ public class BluetoothLeService extends Service{
             Log.w(TAG, "BluetoothAdapter not initialized");
             return;
         }
+        mState = BluetoothGatt.GATT_FAILURE;
+        mInitialized = false;
         mBluetoothGatt.disconnect();
     }
 
