@@ -71,8 +71,8 @@ public class SetupActivity extends AppCompatActivity {
             newDevice.latitude = 0.0;
             newDevice.longitude = 0.0;
 
-//           if(mBleService.isBluetoothConnected()) {
- //               if(mBleService.btSendData(String.valueOf(newDeviceType.getVal()))) {
+           if(mBleService.isBluetoothConnected()) {
+                if(mBleService.btSendData(String.valueOf(newDeviceType.getVal()))) {
                     mBleService.disconnect(); // Connection no longer needed.
                     // Parcel the new object up and pass it back to the device activity.
                     Intent resultIntent = new Intent();
@@ -81,16 +81,16 @@ public class SetupActivity extends AppCompatActivity {
                     resultIntent.putExtra("device", retBundle);
                     setResult(Activity.RESULT_OK, resultIntent);
                     finish(); // Close the current activity.
-//                } else {
-//                    Snackbar.make(findViewById(R.id.setupLayout), getResources().getString(R.string.ble_data_transfer_failed),
-//                              Snackbar.LENGTH_LONG)
-//                            .show();
-//                }
-//            } else {
-//                Snackbar.make(findViewById(R.id.setupLayout), getResources().getString(R.string.bluetooth_not_connected),
-//                          Snackbar.LENGTH_LONG)
-//                        .show();
-//            }
+                } else {
+                    Snackbar.make(findViewById(R.id.setupLayout), getResources().getString(R.string.ble_data_transfer_failed),
+                              Snackbar.LENGTH_LONG)
+                            .show();
+                }
+            } else {
+                Snackbar.make(findViewById(R.id.setupLayout), getResources().getString(R.string.bluetooth_not_connected),
+                          Snackbar.LENGTH_LONG)
+                        .show();
+            }
         }
     }
 

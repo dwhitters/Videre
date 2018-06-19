@@ -114,7 +114,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //mo2 = new MarkerOptions().position(new LatLng(0, 0)).title("My Device Location");
         for(int i = 0; i<userDevices.size();i++){
             if(!userDevices.get(i).key.equals(mDevice.key)) {
-                System.out.println(i);
                 markerOpArr.add(new MarkerOptions().position(new LatLng(userDevices.get(i).
                         latitude,userDevices.get(i).longitude))
                         .title(userDevices.get(i).id));
@@ -135,7 +134,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         marker = mMap.addMarker(mo);
         marker2 = mMap.addMarker(mo2);
         for (int i = 0; i<markerOpArr.size(); i++) {
-            System.out.println(i);
             markerList.add(mMap.addMarker(new MarkerOptions().
             position(new LatLng(markerOpArr.get(i).getPosition().latitude,markerOpArr.get(i).
                     getPosition().longitude)).icon(BitmapDescriptorFactory.
